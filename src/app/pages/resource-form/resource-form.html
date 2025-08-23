@@ -1,0 +1,55 @@
+<div class="container mx-auto">
+    <!-- Page Header -->
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">
+        {{ isEditMode ? 'Edit Resource' : 'Add New Resource' }}
+    </h1>
+
+    <!-- Form -->
+    <div class="bg-white rounded-lg shadow p-6">
+        <form (ngSubmit)="saveResource()" #resourceForm="ngForm">
+            <!-- Title Field -->
+            <div class="mb-4">
+                <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                <input type="text" id="title" name="title" [(ngModel)]="resource.title" required
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <!-- Author Field -->
+            <div class="mb-4">
+                <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
+                <input type="text" id="author" name="author" [(ngModel)]="resource.author" required
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <!-- URL Field -->
+            <div class="mb-4">
+                <label for="url" class="block text-sm font-medium text-gray-700">URL</label>
+                <input type="text" id="url" name="url" [(ngModel)]="resource.url" required
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            </div>
+
+            <!-- Type Field -->
+            <div class="mb-6">
+                <label for="type" class="block text-sm font-medium text-gray-700">Resource Type</label>
+                <select id="type" name="type" [(ngModel)]="resource.type" required
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    <option value="PDF">PDF</option>
+                    <option value="Video">Video</option>
+                    <option value="Article">Article</option>
+                </select>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end gap-4">
+                <a routerLink="/manage-resources"
+                    class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
+                    Cancel
+                </a>
+                <button type="submit" [disabled]="!resourceForm.form.valid"
+                    class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400">
+                    Save Resource
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

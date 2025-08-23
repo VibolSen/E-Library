@@ -1,0 +1,37 @@
+<!-- Use *ngIf to only show the content if a book was found -->
+<div *ngIf="book; else notFound">
+    <!-- Back Button -->
+    <a routerLink="/books" class="mb-6 inline-block text-blue-600 hover:text-blue-800 transition-colors">
+        &larr; Back to All Books
+    </a>
+
+    <div class="bg-white rounded-lg shadow-lg p-8">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Book Cover -->
+            <img class="w-full md:w-1/3 rounded-md shadow-md" [src]="book.coverImage" [alt]="'Cover of ' + book.title">
+
+            <!-- Book Info -->
+            <div class="w-full md:w-2/3">
+                <h1 class="text-4xl font-bold text-gray-900">{{ book.title }}</h1>
+                <p class="text-xl text-gray-600 mt-2">by {{ book.author }}</p>
+                <!-- This will display the real description from mock-books.ts -->
+                <p class="text-gray-700 mt-6">
+                    {{ book.description }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- This template is shown if *ngIf is false (no book found) -->
+<ng-template #notFound>
+    <div class="text-center py-16">
+        <h2 class="text-2xl font-semibold text-gray-700">Book Not Found</h2>
+        <p class="text-gray-500 mt-2">The book you are looking for does not exist.</p>
+        <!-- Add a link to go back -->
+        <a routerLink="/books"
+            class="mt-6 inline-block bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+            &larr; Back to the Library
+        </a>
+    </div>
+</ng-template>

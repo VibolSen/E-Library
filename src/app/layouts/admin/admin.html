@@ -1,0 +1,67 @@
+<div class="flex h-screen bg-gray-100">
+    <!-- Sidebar -->
+    <aside class="w-64 flex-shrink-0 bg-white border-r">
+        <div class="p-4 border-b">
+            <h2 class="text-xl font-bold text-gray-800">E-Library Menu</h2>
+        </div>
+        <nav class="p-4">
+            <ul>
+                <!-- Dashboard Link -->
+                <li class="mb-2">
+                    <a routerLink="/dashboard" routerLinkActive="active-link" class="nav-link">
+                        <span class="mr-3">📊</span>
+                        Dashboard
+                    </a>
+                </li>
+                <!-- Manage Books Link -->
+                <li class="mb-2">
+                    <a routerLink="/manage-books" routerLinkActive="active-link" class="nav-link">
+                        <span class="mr-3">📚</span>
+                        Manage Books
+                    </a>
+                </li>
+                <!-- Other links remain as placeholders for now -->
+                <li class="mb-2">
+                    <a routerLink="/manage-resources" routerLinkActive="active-link" class="nav-link">
+                        <span class="mr-3">📄</span>
+                        Manage Resources
+                    </a>
+                </li>
+                <li class="mb-2">
+                    <a routerLink="/manage-categories" routerLinkActive="active-link" class="nav-link">
+                        <span class="mr-3">🏷️</span>
+                        Manage Categories
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/reports" routerLinkActive="active-link" class="nav-link">
+                        <span class="mr-3">📈</span>
+                        Reports
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col overflow-hidden">
+        <!-- Top Navigation (Optional, but good practice) -->
+        <header class="bg-white border-b">
+            <div class="flex items-center justify-between p-4">
+                <h1 class="text-2xl font-bold text-gray-800">E-Library</h1>
+                <div>
+                    <!-- User Profile / Logout etc. can go here -->
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content - This is where the dashboard will appear -->
+        <div class="flex-1 p-6 overflow-y-auto">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+</div>
+
+<!-- Reusable components that can be activated by services -->
+<app-confirmation-modal></app-confirmation-modal>
+<app-toast></app-toast>

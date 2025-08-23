@@ -1,0 +1,39 @@
+<div class="container mx-auto">
+    <!-- Page Header -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Manage Books</h1>
+        <!-- PrimeNG Add New Book Button -->
+        <a routerLink="/add-book">
+            <p-button label="Add New Book" icon="pi pi-plus"></p-button>
+        </a>
+    </div>
+
+    <!-- PrimeNG Table -->
+    <p-table [value]="books" [tableStyle]="{ 'min-width': '50rem' }" styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 10%">Cover</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th style="width: 15%">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-book>
+            <tr>
+                <td>
+                    <img [src]="book.coverImage" [alt]="book.title" class="h-16 w-12 object-cover rounded shadow-sm">
+                </td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>
+                    <!-- PrimeNG Edit and Delete Buttons -->
+                    <a [routerLink]="['/edit-book', book.id]">
+                        <p-button icon="pi pi-pencil" styleClass="p-button-text p-button-rounded"></p-button>
+                    </a>
+                    <p-button (click)="deleteBook(book.id, book.title)" icon="pi pi-trash"
+                        styleClass="p-button-text p-button-rounded p-button-danger"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

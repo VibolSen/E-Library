@@ -1,0 +1,38 @@
+/* Base styles for all navigation links */
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    /* 12px */
+    color: #374151;
+    /* text-gray-700 */
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    background-color: #F3F4F6;
+    /* hover:bg-gray-100 */
+}
+
+/* Styles for the currently active link */
+.active-link {
+    background-color: #2563EB;
+    /* bg-blue-600 */
+    color: #FFFFFF;
+    /* text-white */
+    font-weight: 700;
+    /* font-bold */
+}
+
+/* Styles for disabled/placeholder links */
+.nav-link-disabled {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    color: #9CA3AF;
+    /* text-gray-400 */
+    border-radius: 0.5rem;
+    cursor: not-allowed;
+}

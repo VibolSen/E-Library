@@ -1,0 +1,4 @@
+tbody tr:hover {
+    background-color: #F9FAFB;
+    /* A very light gray, equivalent to tailwind's bg-gray-50 */
+}

@@ -1,0 +1,49 @@
+<div class="container mx-auto">
+    <!-- Page Header -->
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Manage Resources</h1>
+        <a routerLink="/add-resource"
+            class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+            + Add New Resource
+        </a>
+    </div>
+
+    <!-- Resources Table -->
+    <div class="bg-white rounded-lg shadow overflow-hidden">
+        <table class="min-w-full">
+            <thead class="bg-gray-50 border-b-2 border-gray-200">
+                <tr>
+                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Title</th>
+                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Type</th>
+                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Author</th>
+                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let resource of resources" class="border-b">
+                    <td class="p-4 font-medium text-gray-900">{{ resource.title }}</td>
+                    <td class="p-4">
+                        <!-- We'll add a styled badge for the type -->
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full" [ngClass]="{
+                'bg-red-100 text-red-800': resource.type === 'PDF',
+                'bg-blue-100 text-blue-800': resource.type === 'Video',
+                'bg-green-100 text-green-800': resource.type === 'Article'
+              }">
+                            {{ resource.type }}
+                        </span>
+                    </td>
+                    <td class="p-4 text-gray-600">{{ resource.author }}</td>
+                    <td class="p-4">
+                        <!-- Placeholder buttons -->
+                        <a [routerLink]="['/edit-resource', resource.id]" class="text-blue-600 hover:text-blue-800 font-semibold mr-4">
+                            Edit
+                        </a>
+                        <button (click)="deleteResource(resource.id, resource.title)" class="text-red-600 hover:text-red-800 font-semibold">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
