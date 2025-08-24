@@ -1,53 +1,88 @@
 <div class="container mx-auto">
-    <!-- Page Header -->
     <h1 class="text-3xl font-bold text-gray-800 mb-6">
-        {{ isEditMode ? 'Edit Book' : 'Add New Book' }}
+        {{ isEditMode ? 'Edit Book' : 'Create a New Book' }}
     </h1>
 
-    <!-- Form -->
     <div class="bg-white rounded-lg shadow p-6">
         <form (ngSubmit)="saveBook()" #bookForm="ngForm">
-            <!-- Title Field -->
+            <!-- Title -->
             <div class="mb-4">
                 <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
                 <input type="text" id="title" name="title" [(ngModel)]="book.title" required
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
-            <!-- Author Field -->
-            <div class="mb-4">
-                <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
-                <input type="text" id="author" name="author" [(ngModel)]="book.author" required
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-            </div>
-
+            <!-- Category -->
             <div class="mb-4">
                 <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
                 <select id="category" name="category" [(ngModel)]="book.categoryId" required
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    <option [value]="0" disabled>Select a category</option>
-                    <option *ngFor="let category of categories" [value]="category.id">
-                        {{ category.name }}
-                    </option>
+                    <option [value]="null" disabled>-- Select a Category --</option>
+                    <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
                 </select>
             </div>
 
-            <!-- Cover Image Field -->
-            <div class="mb-6">
-                <label for="coverImage" class="block text-sm font-medium text-gray-700">Cover Image URL</label>
-                <input type="text" id="coverImage" name="coverImage" [(ngModel)]="book.coverImage" required
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <!-- File Upload Placeholders -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">eBook File (PDF, EPUB)</label>
+                    <button type="button"
+                        class="mt-1 w-full bg-gray-200 py-2 px-4 rounded-md text-gray-700 hover:bg-gray-300">Choose
+                        File</button>
+                    <p class="text-xs text-gray-500 mt-1">Max file size: 100 MB.</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Cover Image</label>
+                    <button type="button"
+                        class="mt-1 w-full bg-gray-200 py-2 px-4 rounded-md text-gray-700 hover:bg-gray-300">Choose
+                        File</button>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-4">
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea id="description" name="description" [(ngModel)]="book.description" rows="4"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+            </div>
+
+            <!-- Author & Publisher -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div>
+                    <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
+                    <input type="text" id="author" name="author" [(ngModel)]="book.author" required
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="publisher" class="block text-sm font-medium text-gray-700">Publisher</label>
+                    <input type="text" id="publisher" name="publisher" [(ngModel)]="book.publisher"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+            </div>
+
+            <!-- PublishedDate & ISBN -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <label for="publishedDate" class="block text-sm font-medium text-gray-700">Published Date</label>
+                    <input type="date" id="publishedDate" name="publishedDate" [(ngModel)]="book.publishedDate"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="isbn" class="block text-sm font-medium text-gray-700">ISBN</label>
+                    <input type="text" id="isbn" name="isbn" [(ngModel)]="book.isbn"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex justify-end gap-4">
+            <div class="flex justify-end gap-4 border-t pt-6 mt-6">
                 <a routerLink="/manage-books"
                     class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
-                    Cancel
+                    Back to List
                 </a>
                 <button type="submit" [disabled]="!bookForm.form.valid"
                     class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400">
-                    Save Book
+                    {{ isEditMode ? 'Save Changes' : 'Create Book' }}
                 </button>
             </div>
         </form>

@@ -1,4 +1,5 @@
 <div class="container mx-auto">
+    <!-- Page Header -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold text-gray-800">Manage Categories</h1>
         <a routerLink="/add-category"
@@ -7,19 +8,32 @@
         </a>
     </div>
 
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="flex justify-center py-16"><app-spinner></app-spinner></div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
+        <strong class="font-bold">Error:</strong> <span class="block sm:inline">{{ error }}</span>
+    </div>
+
+    <!-- Categories Table (Simplified) -->
+    <div *ngIf="!isLoading && !error" class="bg-white rounded-lg shadow overflow-hidden">
         <table class="min-w-full">
             <thead class="bg-gray-50 border-b-2 border-gray-200">
                 <tr>
                     <th class="p-4 text-left text-sm font-semibold text-gray-600">Name</th>
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Description</th>
                     <th class="p-4 text-left text-sm font-semibold text-gray-600">Actions</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- Empty State -->
+                <tr *ngIf="categories.length === 0">
+                    <td colspan="2" class="p-8 text-center text-gray-500">No categories found.</td>
+                    <!-- Updated colspan to 2 -->
+                </tr>
+                <!-- Data Rows -->
                 <tr *ngFor="let category of categories" class="border-b">
                     <td class="p-4 font-medium text-gray-900">{{ category.name }}</td>
-                    <td class="p-4 text-gray-600">{{ category.description }}</td>
                     <td class="p-4">
                         <a [routerLink]="['/edit-category', category.id]"
                             class="text-blue-600 hover:text-blue-800 font-semibold mr-4">Edit</a>

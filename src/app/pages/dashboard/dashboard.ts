@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BOOKS } from '../../mock-books';
-import { RESOURCES } from '../../mock-resources';
+import { ApiService, Book, Category } from '../../services/api'; // <-- Import from ApiService
+// We no longer need mock files
 
 @Component({
   selector: 'app-dashboard',
@@ -11,30 +11,29 @@ import { RESOURCES } from '../../mock-resources';
   styleUrl: './dashboard.css',
 })
 export class DashboardComponent implements OnInit {
-  // Properties to hold our calculated stats
   totalResources: number = 0;
   totalBooks: number = 0;
-  totalPdfs: number = 0;
-  totalVideos: number = 0;
-  totalCategories: number = 0; // We'll keep this static for now
+  totalPdfs: number = 0; // Will need to adjust based on API data
+  totalVideos: number = 0; // Will need to adjust based on API data
+  totalCategories: number = 0;
+
+  private apiService = inject(ApiService);
 
   ngOnInit(): void {
     this.calculateStats();
   }
 
   calculateStats(): void {
-    // Count the total number of books
-    this.totalBooks = BOOKS.length;
+    // Fetch books from the API to get the count
+    this.apiService.getBooks().subscribe((books) => {
+      // Assuming for now all resources are books
+      this.totalBooks = books.length;
+      this.totalResources = books.length; // We can make this more complex later
+    });
 
-    // Count the resources by type
-    this.totalPdfs = RESOURCES.filter((res) => res.type === 'PDF').length;
-    this.totalVideos = RESOURCES.filter((res) => res.type === 'Video').length;
-    const articleCount = RESOURCES.filter((res) => res.type === 'Article').length;
-
-    // Calculate the grand total
-    this.totalResources = this.totalBooks + this.totalPdfs + this.totalVideos + articleCount;
-
-    // For now, we'll just have a static number for categories
-    this.totalCategories = 5; // e.g., Fiction, Non-Fiction, Science, History, etc.
+    // Fetch categories from the API to get the count
+    this.apiService.getCategories().subscribe((categories) => {
+      this.totalCategories = categories.length;
+    });
   }
 }

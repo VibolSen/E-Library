@@ -11,13 +11,9 @@
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
-            <div class="mb-6">
-                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                <textarea id="description" name="description" [(ngModel)]="category.description" required rows="4"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
-            </div>
+            <!-- DELETE THE DESCRIPTION DIV THAT WAS HERE -->
 
-            <div class="flex justify-end gap-4">
+            <div class="flex justify-end gap-4 mt-6"> <!-- Added mt-6 for spacing -->
                 <a routerLink="/manage-categories"
                     class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
                     Cancel
