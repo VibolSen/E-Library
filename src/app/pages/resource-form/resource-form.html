@@ -1,53 +1,101 @@
 <div class="container mx-auto">
-    <!-- Page Header -->
     <h1 class="text-3xl font-bold text-gray-800 mb-6">
-        {{ isEditMode ? 'Edit Resource' : 'Add New Resource' }}
+        {{ isEditMode ? 'Edit Resource' : 'Create New Resource' }}
     </h1>
 
-    <!-- Form -->
     <div class="bg-white rounded-lg shadow p-6">
         <form (ngSubmit)="saveResource()" #resourceForm="ngForm">
-            <!-- Title Field -->
+            <!-- Title -->
             <div class="mb-4">
                 <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
                 <input type="text" id="title" name="title" [(ngModel)]="resource.title" required
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
             </div>
 
-            <!-- Author Field -->
-            <div class="mb-4">
-                <label for="author" class="block text-sm font-medium text-gray-700">Author</label>
-                <input type="text" id="author" name="author" [(ngModel)]="resource.author" required
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+            <!-- Resource Type & Category -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div>
+                    <label for="resourceType" class="block text-sm font-medium text-gray-700">Resource Type</label>
+                    <select id="resourceType" name="resourceType" [(ngModel)]="resource.resourceType" required
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option [value]="null" disabled>-- Select a Type --</option>
+                        <option [value]="1">PDF</option>
+                        <option [value]="2">Video</option>
+                        <option [value]="3">Article</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                    <select id="category" name="category" [(ngModel)]="resource.categoryId" required
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option [value]="null" disabled>-- Select a Category --</option>
+                        <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+                    </select>
+                </div>
             </div>
 
-            <!-- URL Field -->
+            <!-- Tags -->
             <div class="mb-4">
-                <label for="url" class="block text-sm font-medium text-gray-700">URL</label>
-                <input type="text" id="url" name="url" [(ngModel)]="resource.url" required
+                <label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
+                <input type="text" id="tags" name="tags" [(ngModel)]="resource.tags"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                <p class="text-xs text-gray-500 mt-1">Enter tags separated by commas (e.g., csharp, video, beginners).
+                </p>
             </div>
 
-            <!-- Type Field -->
+            <!-- File Upload Placeholders -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Asset File (e.g., PDF, MP4)</label>
+                    <button type="button"
+                        class="mt-1 w-full bg-gray-200 py-2 px-4 rounded-md text-gray-700 hover:bg-gray-300">Choose
+                        File</button>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Cover Image</label>
+                    <button type="button"
+                        class="mt-1 w-full bg-gray-200 py-2 px-4 rounded-md text-gray-700 hover:bg-gray-300">Choose
+                        File</button>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-4">
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea id="description" name="description" [(ngModel)]="resource.description" rows="4"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+            </div>
+
+            <!-- Author & Publisher -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div>
+                    <label for="author" class="block text-sm font-medium text-gray-700">Author / Creator</label>
+                    <input type="text" id="author" name="author" [(ngModel)]="resource.author"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+                <div>
+                    <label for="publisher" class="block text-sm font-medium text-gray-700">Publisher</label>
+                    <input type="text" id="publisher" name="publisher" [(ngModel)]="resource.publisher"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                </div>
+            </div>
+
+            <!-- PublishedDate -->
             <div class="mb-6">
-                <label for="type" class="block text-sm font-medium text-gray-700">Resource Type</label>
-                <select id="type" name="type" [(ngModel)]="resource.type" required
+                <label for="publishedDate" class="block text-sm font-medium text-gray-700">Published Date</label>
+                <input type="date" id="publishedDate" name="publishedDate" [(ngModel)]="resource.publishedDate"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                    <option value="PDF">PDF</option>
-                    <option value="Video">Video</option>
-                    <option value="Article">Article</option>
-                </select>
             </div>
 
             <!-- Action Buttons -->
-            <div class="flex justify-end gap-4">
+            <div class="flex justify-end gap-4 border-t pt-6 mt-6">
                 <a routerLink="/manage-resources"
                     class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
-                    Cancel
+                    Back to List
                 </a>
                 <button type="submit" [disabled]="!resourceForm.form.valid"
                     class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400">
-                    Save Resource
+                    {{ isEditMode ? 'Save Changes' : 'Create Resource' }}
                 </button>
             </div>
         </form>

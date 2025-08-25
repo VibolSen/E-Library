@@ -1,42 +1,56 @@
 <div class="flex h-screen bg-gray-100">
     <!-- Sidebar -->
-    <aside class="w-64 flex-shrink-0 bg-white border-r">
-        <div class="p-4 border-b">
-            <h2 class="text-xl font-bold text-gray-800">E-Library Menu</h2>
+    <aside class="w-64 flex-shrink-0 bg-gradient-to-b from-indigo-600 to-indigo-800 text-white shadow-xl">
+        <!-- Logo / Title -->
+        <div class="p-4 border-b border-indigo-500 flex items-center justify-center">
+            <h2 class="text-2xl font-bold tracking-wide">📚 E-Library</h2>
         </div>
+
+        <!-- Navigation -->
         <nav class="p-4">
-            <ul>
-                <!-- Dashboard Link -->
-                <li class="mb-2">
-                    <a routerLink="/dashboard" routerLinkActive="active-link" class="nav-link">
-                        <span class="mr-3">📊</span>
-                        Dashboard
-                    </a>
-                </li>
-                <!-- Manage Books Link -->
-                <li class="mb-2">
-                    <a routerLink="/manage-books" routerLinkActive="active-link" class="nav-link">
-                        <span class="mr-3">📚</span>
-                        Manage Books
-                    </a>
-                </li>
-                <!-- Other links remain as placeholders for now -->
-                <li class="mb-2">
-                    <a routerLink="/manage-resources" routerLinkActive="active-link" class="nav-link">
-                        <span class="mr-3">📄</span>
-                        Manage Resources
-                    </a>
-                </li>
-                <li class="mb-2">
-                    <a routerLink="/manage-categories" routerLinkActive="active-link" class="nav-link">
-                        <span class="mr-3">🏷️</span>
-                        Manage Categories
-                    </a>
-                </li>
+            <ul class="space-y-2">
+                <!-- Dashboard -->
                 <li>
-                    <a routerLink="/reports" routerLinkActive="active-link" class="nav-link">
-                        <span class="mr-3">📈</span>
-                        Reports
+                    <a routerLink="/dashboard" routerLinkActive="active-link"
+                        class="flex items-center px-3 py-2 rounded-xl transition-all duration-200 hover:bg-indigo-500 hover:shadow-md nav-link">
+                        <span class="mr-3 text-lg">📊</span>
+                        <span class="font-medium">Dashboard</span>
+                    </a>
+                </li>
+
+                <!-- Manage Books -->
+                <li>
+                    <a routerLink="/manage-books" routerLinkActive="active-link"
+                        class="flex items-center px-3 py-2 rounded-xl transition-all duration-200 hover:bg-indigo-500 hover:shadow-md nav-link">
+                        <span class="mr-3 text-lg">📚</span>
+                        <span class="font-medium">Manage Books</span>
+                    </a>
+                </li>
+
+                <!-- Manage Resources -->
+                <li>
+                    <a routerLink="/manage-resources" routerLinkActive="active-link"
+                        class="flex items-center px-3 py-2 rounded-xl transition-all duration-200 hover:bg-indigo-500 hover:shadow-md nav-link">
+                        <span class="mr-3 text-lg">📄</span>
+                        <span class="font-medium">Manage Resources</span>
+                    </a>
+                </li>
+
+                <!-- Manage Categories -->
+                <li>
+                    <a routerLink="/manage-categories" routerLinkActive="active-link"
+                        class="flex items-center px-3 py-2 rounded-xl transition-all duration-200 hover:bg-indigo-500 hover:shadow-md nav-link">
+                        <span class="mr-3 text-lg">🏷️</span>
+                        <span class="font-medium">Manage Categories</span>
+                    </a>
+                </li>
+
+                <!-- Reports -->
+                <li>
+                    <a routerLink="/reports" routerLinkActive="active-link"
+                        class="flex items-center px-3 py-2 rounded-xl transition-all duration-200 hover:bg-indigo-500 hover:shadow-md nav-link">
+                        <span class="mr-3 text-lg">📈</span>
+                        <span class="font-medium">Reports</span>
                     </a>
                 </li>
             </ul>
@@ -45,23 +59,26 @@
 
     <!-- Main Content -->
     <main class="flex-1 flex flex-col overflow-hidden">
-        <!-- Top Navigation (Optional, but good practice) -->
-        <header class="bg-white border-b">
+        <!-- Top Navigation -->
+        <header class="bg-white border-b shadow-sm">
             <div class="flex items-center justify-between p-4">
                 <h1 class="text-2xl font-bold text-gray-800">E-Library</h1>
-                <div>
-                    <!-- User Profile / Logout etc. can go here -->
+                <div class="flex items-center space-x-4">
+                    <!-- Example User Avatar -->
+                    <div
+                        class="w-10 h-10 bg-indigo-200 rounded-full flex items-center justify-center text-indigo-800 font-bold">
+                        VS</div>
                 </div>
             </div>
         </header>
 
-        <!-- Page Content - This is where the dashboard will appear -->
+        <!-- Page Content -->
         <div class="flex-1 p-6 overflow-y-auto">
             <router-outlet></router-outlet>
         </div>
     </main>
 </div>
 
-<!-- Reusable components that can be activated by services -->
+<!-- Reusable components -->
 <app-confirmation-modal></app-confirmation-modal>
 <app-toast></app-toast>

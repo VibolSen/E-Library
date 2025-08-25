@@ -1,39 +1,70 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ApiService, Book, Category } from '../../services/api'; // <-- Import from ApiService
-// We no longer need mock files
+import { ApiService, DashboardStats } from '../../services/api';
+import { SpinnerComponent } from '../../shared/spinner/spinner';
+import { RouterLink } from '@angular/router';
+import { forkJoin } from 'rxjs'; // To run API calls in parallel
+// --- Chart Imports ---
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
+// -------------------
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SpinnerComponent, RouterLink, BaseChartDirective], // <-- Add BaseChartDirective
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
 export class DashboardComponent implements OnInit {
-  totalResources: number = 0;
-  totalBooks: number = 0;
-  totalPdfs: number = 0; // Will need to adjust based on API data
-  totalVideos: number = 0; // Will need to adjust based on API data
-  totalCategories: number = 0;
+  isLoading: boolean = true;
+  stats: DashboardStats | null = null;
+  error: string | null = null;
 
   private apiService = inject(ApiService);
 
+  // --- Chart Configuration ---
+  public pieChartType: ChartType = 'pie';
+  public pieChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    plugins: { legend: { position: 'top' } },
+  };
+  public pieChartData: ChartData<'pie', number[], string | string[]> = {
+    labels: [],
+    datasets: [{ data: [] }],
+  };
+  // -------------------------
+
   ngOnInit(): void {
-    this.calculateStats();
+    this.loadDashboardData();
   }
 
-  calculateStats(): void {
-    // Fetch books from the API to get the count
-    this.apiService.getBooks().subscribe((books) => {
-      // Assuming for now all resources are books
-      this.totalBooks = books.length;
-      this.totalResources = books.length; // We can make this more complex later
-    });
+  loadDashboardData(): void {
+    this.isLoading = true;
+    this.error = null;
 
-    // Fetch categories from the API to get the count
-    this.apiService.getCategories().subscribe((categories) => {
-      this.totalCategories = categories.length;
+    // Use forkJoin to get both stats and chart data at the same time
+    forkJoin({
+      stats: this.apiService.getDashboardStats(),
+      chartData: this.apiService.getReportData(), // Assuming getReportData gets resources by category
+    }).subscribe({
+      next: ({ stats, chartData }) => {
+        // Set stats for the cards
+        this.stats = stats;
+
+        // Set data for the chart
+        if (chartData && chartData.length > 0) {
+          this.pieChartData.labels = chartData.map((item) => item.categoryName);
+          this.pieChartData.datasets[0].data = chartData.map((item) => item.resourceCount);
+        }
+
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.error = 'Failed to load dashboard data.';
+        console.error(err);
+        this.isLoading = false;
+      },
     });
   }
 }
