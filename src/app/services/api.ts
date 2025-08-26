@@ -62,7 +62,7 @@ export interface DashboardStats {
 })
 export class ApiService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:5069/api/e-library';
+  private baseUrl = 'http://172.104.190.114/api/e-library';
 
   constructor() {}
 
