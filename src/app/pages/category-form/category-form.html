@@ -1,28 +1,30 @@
-<div class="container mx-auto">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">
-        {{ isEditMode ? 'Edit Category' : 'Add New Category' }}
-    </h1>
+<div class="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-200 p-8">
+    <div
+        class="max-w-md mx-auto bg-white rounded-xl shadow-2xl overflow-hidden md:max-w-lg transform hover:scale-105 transition-transform duration-300 ease-in-out">
+        <div class="p-8">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-8 text-center">
+                {{ isEditMode ? 'Edit Category' : 'Create New Category' }}
+            </h1>
 
-    <div class="bg-white rounded-lg shadow p-6">
-        <form (ngSubmit)="saveCategory()" #categoryForm="ngForm">
-            <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700">Category Name</label>
-                <input type="text" id="name" name="name" [(ngModel)]="category.name" required
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-            </div>
+            <form (ngSubmit)="saveCategory()" #categoryForm="ngForm" class="space-y-6">
+                <div>
+                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Category Name</label>
+                    <input type="text" id="name" name="name" [(ngModel)]="category.name" required class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-400
+                               transition duration-200 ease-in-out hover:border-indigo-400">
+                </div>
 
-            <!-- DELETE THE DESCRIPTION DIV THAT WAS HERE -->
-
-            <div class="flex justify-end gap-4 mt-6"> <!-- Added mt-6 for spacing -->
-                <a routerLink="/manage-categories"
-                    class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
-                    Cancel
-                </a>
-                <button type="submit" [disabled]="!categoryForm.form.valid"
-                    class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400">
-                    Save Category
-                </button>
-            </div>
-        </form>
+                <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8">
+                    <a routerLink="/manage-categories" class="flex-1 text-center bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg hover:bg-gray-400 transition-all duration-300 ease-in-out
+                               focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75">
+                        Cancel
+                    </a>
+                    <button type="submit" [disabled]="!categoryForm.form.valid" class="flex-1 text-center bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-indigo-700 transition-all duration-300 ease-in-out
+                               disabled:bg-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75
+                               transform hover:-translate-y-0.5">
+                        Save Category
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BookList } from './book-list';
+import { ResourceView } from './resource-view';
 
-describe('BookList', () => {
-  let component: BookList;
-  let fixture: ComponentFixture<BookList>;
+describe('ResourceView', () => {
+  let component: ResourceView;
+  let fixture: ComponentFixture<ResourceView>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BookList]
+      imports: [ResourceView]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(BookList);
+    fixture = TestBed.createComponent(ResourceView);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

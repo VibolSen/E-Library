@@ -8,6 +8,8 @@ import { ResourceFormComponent } from './pages/resource-form/resource-form';
 import { ManageCategoriesComponent } from './pages/manage-categories/manage-categories';
 import { CategoryFormComponent } from './pages/category-form/category-form';
 import { ReportsComponent } from './pages/reports/reports';
+import { BookViewComponent } from './pages/book-view/book-view';
+import { ResourceViewComponent } from './pages/resource-view/resource-view';
 
 export const routes: Routes = [
   {
@@ -18,6 +20,7 @@ export const routes: Routes = [
       { path: 'manage-books', component: ManageBooksComponent },
       { path: 'add-book', component: BookFormComponent },
       { path: 'edit-book/:id', component: BookFormComponent },
+      { path: 'view-book/:id', component: BookViewComponent },
       { path: 'manage-resources', component: ManageResourcesComponent },
       { path: 'add-resource', component: ResourceFormComponent },
       { path: 'edit-resource/:id', component: ResourceFormComponent },
@@ -25,6 +28,7 @@ export const routes: Routes = [
       { path: 'add-category', component: CategoryFormComponent },
       { path: 'edit-category/:id', component: CategoryFormComponent },
       { path: 'reports', component: ReportsComponent },
+      { path: 'view-resource/:id', component: ResourceViewComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
