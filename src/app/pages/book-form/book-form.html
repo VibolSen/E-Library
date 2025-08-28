@@ -22,20 +22,42 @@
                 </select>
             </div>
 
-            <!-- File Upload Placeholders -->
+            <!-- File Upload Section -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">eBook File (PDF, EPUB)</label>
-                    <button type="button"
-                        class="mt-1 w-full bg-gray-200 py-2 px-4 rounded-md text-gray-700 hover:bg-gray-300">Choose
-                        File</button>
+                
+                    <!-- 1. The hidden file input that does the real work -->
+                    <input type="file" class="hidden" #ebookFileInput (change)="onEbookFileSelected($event)">
+                
+                    <!-- 2. The visible button that triggers the hidden input -->
+                    <button (click)="ebookFileInput.click()" type="button"
+                        class="mt-1 w-full bg-gray-200 py-2 px-4 rounded-md text-gray-700 hover:bg-gray-300">
+                        Choose File
+                    </button>
+                
                     <p class="text-xs text-gray-500 mt-1">Max file size: 100 MB.</p>
+                
+                    <!-- 3. Display the name of the selected eBook file -->
+                    <p *ngIf="selectedEbookFile" class="text-sm text-gray-600 mt-2 truncate">
+                        Selected: <span class="font-medium">{{ selectedEbookFile.name }}</span>
+                    </p>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Cover Image</label>
-                    <button type="button"
-                        class="mt-1 w-full bg-gray-200 py-2 px-4 rounded-md text-gray-700 hover:bg-gray-300">Choose
-                        File</button>
+                    <!-- The hidden file input that does the actual work -->
+                    <input type="file" class="hidden" #coverImageInput (change)="onFileSelected($event)">
+
+                    <!-- The visible button the user clicks -->
+                    <button (click)="coverImageInput.click()" type="button"
+                        class="mt-1 w-full bg-gray-200 py-2 px-4 rounded-md text-gray-700 hover:bg-gray-300">
+                        Choose File
+                    </button>
+
+                    <!-- Display the name of the selected file -->
+                    <p *ngIf="selectedFile" class="text-sm text-gray-600 mt-2 truncate">
+                        Selected: <span class="font-medium">{{ selectedFile.name }}</span>
+                    </p>
                 </div>
             </div>
 
@@ -80,9 +102,10 @@
                     class="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
                     Back to List
                 </a>
-                <button type="submit" [disabled]="!bookForm.form.valid"
+                <button type="submit" [disabled]="!bookForm.form.valid || isLoading"
                     class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400">
-                    {{ isEditMode ? 'Save Changes' : 'Create Book' }}
+                    <span *ngIf="!isLoading">{{ isEditMode ? 'Save Changes' : 'Create Book' }}</span>
+                    <span *ngIf="isLoading">Saving...</span>
                 </button>
             </div>
         </form>

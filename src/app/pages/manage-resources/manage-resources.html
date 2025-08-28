@@ -1,67 +1,114 @@
-<div class="container mx-auto">
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <!-- Page Header -->
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">Manage Resources</h1>
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-8 bg-white p-6 rounded-xl shadow-md">
+        <h1 class="text-4xl font-extrabold text-gray-900 mb-4 sm:mb-0">Resource Hub</h1>
         <a routerLink="/add-resource"
-            class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-            + Add New Resource
+            class="bg-gradient-to-r from-purple-600 to-indigo-700 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clip-rule="evenodd" />
+            </svg>
+            <span>Add New Resource</span>
         </a>
     </div>
 
     <!-- Loading Spinner -->
-    <div *ngIf="isLoading" class="flex justify-center py-16"><app-spinner></app-spinner></div>
+    <div *ngIf="isLoading" class="flex justify-center py-20">
+        <app-spinner></app-spinner>
+    </div>
 
     <!-- Error Message -->
-    <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
-        <strong class="font-bold">Error:</strong> <span class="block sm:inline">{{ error }}</span>
+    <div *ngIf="error"
+        class="animate-fade-in bg-red-50 border border-red-300 text-red-800 px-6 py-4 rounded-lg relative mb-8 shadow-md"
+        role="alert">
+        <strong class="font-bold mr-2">Oops!</strong> <span class="block sm:inline">{{ error }}</span>
+        <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+            <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20">
+                <title>Close</title>
+                <path
+                    d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 2.652a1.2 1.2 0 1 1-1.697-1.697l2.758-2.758-2.758-2.758a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-2.652a1.2 1.2 0 1 1 1.697 1.697l-2.758 2.758 2.758 2.758a1.2 1.2 0 0 1 0 1.697z" />
+            </svg>
+        </span>
     </div>
 
     <!-- Resources Table -->
-    <div *ngIf="!isLoading && !error" class="bg-white rounded-lg shadow overflow-hidden">
-        <table class="min-w-full">
-            <thead class="bg-gray-50 border-b-2 border-gray-200">
-                <tr>
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Title</th>
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Type</th>
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Author</th>
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Category</th>
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Empty State -->
-                <tr *ngIf="resources.length === 0">
-                    <td colspan="5" class="p-8 text-center text-gray-500">No resources found.</td>
-                </tr>
-                <!-- Data Rows -->
-                <tr *ngFor="let resource of resources" class="border-b">
-                    <td class="p-4 font-medium text-gray-900">{{ resource.title }}</td>
-                    <td class="p-4">
-                        <!-- CORRECTED: Check 'resourceType' (number) instead of 'type' (string) -->
-                        <span class="px-2 py-1 text-xs font-semibold rounded-full" [ngClass]="{
-                'bg-red-100 text-red-800': resource.resourceType === 1,
-                'bg-blue-100 text-blue-800': resource.resourceType === 2,
-                'bg-green-100 text-green-800': resource.resourceType === 3
-              }">
-                            <!-- Use ngSwitch to display the correct text for the number -->
-                            <span [ngSwitch]="resource.resourceType">
-                                <span *ngSwitchCase="1">PDF</span>
-                                <span *ngSwitchCase="2">Video</span>
-                                <span *ngSwitchCase="3">Article</span>
-                                <span *ngSwitchDefault>Other</span>
+    <div *ngIf="!isLoading && !error" class="bg-white rounded-xl shadow-lg overflow-hidden relative">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Title
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Type
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Author
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Category
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Empty State -->
+                    <tr *ngIf="resources.length === 0">
+                        <td colspan="5" class="px-6 py-12 text-center text-gray-500 text-lg">
+                            <p class="mb-2">No resources found.</p>
+                            <p class="text-sm">Click "Add New Resource" to get started!</p>
+                        </td>
+                    </tr>
+                    <!-- Data Rows -->
+                    <tr *ngFor="let resource of resources"
+                        class="hover:bg-gray-50 transition-colors duration-200 ease-in-out">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                            {{ resource.title }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                            <span class="px-3 py-1 text-xs font-semibold rounded-full capitalize" [ngClass]="{
+                                'bg-red-100 text-red-700': resource.resourceType === 1,
+                                'bg-blue-100 text-blue-700': resource.resourceType === 2,
+                                'bg-green-100 text-green-700': resource.resourceType === 3,
+                                'bg-gray-100 text-gray-700': resource.resourceType === 0 || resource.resourceType === undefined
+                            }">
+                                <span [ngSwitch]="resource.resourceType">
+                                    <span *ngSwitchCase="1">PDF</span>
+                                    <span *ngSwitchCase="2">Video</span>
+                                    <span *ngSwitchCase="3">Article</span>
+                                    <span *ngSwitchDefault>Other</span>
+                                </span>
                             </span>
-                        </span>
-                    </td>
-                    <td class="p-4 text-gray-600">{{ resource.author }}</td>
-                    <td class="p-4 text-gray-600">{{ resource.categoryName }}</td>
-                    <td class="p-4">
-                        <a [routerLink]="['/edit-resource', resource.id]"
-                            class="text-blue-600 hover:text-blue-800 font-semibold mr-4">Edit</a>
-                        <button (click)="deleteResource(resource.id, resource.title)"
-                            class="text-red-600 hover:text-red-800 font-semibold">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            {{ resource.author }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            {{ resource.categoryName }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <a [routerLink]="['/edit-resource', resource.id]"
+                                class="text-indigo-600 hover:text-indigo-900 font-semibold mr-4 transition-colors duration-200 ease-in-out">
+                                Edit
+                            </a>
+                            <button (click)="deleteResource(resource.id, resource.title)"
+                                class="text-red-600 hover:text-red-900 font-semibold transition-colors duration-200 ease-in-out">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

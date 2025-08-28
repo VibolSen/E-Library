@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
-import { ApiService, Book, Category } from '../../services/api'; // <-- CORRECTED IMPORT
+import { ApiService, Book, Category } from '../../services/api';
 import { ToastService } from '../../shared/toast.service';
 
 @Component({
@@ -17,8 +17,9 @@ export class BookFormComponent implements OnInit {
   isEditMode: boolean = false;
   isLoading: boolean = false;
   categories: Category[] = [];
+  selectedFile: File | null = null;
+  selectedEbookFile: File | null = null;
 
-  // Inject services
   private apiService = inject(ApiService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
@@ -40,33 +41,47 @@ export class BookFormComponent implements OnInit {
     }
   }
 
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
+  onEbookFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedEbookFile = file;
+    }
+  }
+
   saveBook(): void {
     this.isLoading = true;
     if (this.isEditMode) {
-      this.apiService.updateBook(this.book.id, this.book).subscribe({
-        next: () => {
-          this.toastService.show('Book updated successfully!');
-          this.router.navigate(['/manage-books']);
-        },
-        error: (err) => {
-          this.toastService.show('Failed to update book.', 'error');
-          console.error(err);
-          this.isLoading = false;
-        },
-      });
+      this.apiService
+        .updateBook(this.book.id, this.book, this.selectedFile, this.selectedEbookFile)
+        .subscribe({
+          next: () => {
+            this.toastService.show('Book updated successfully!');
+            this.router.navigate(['/manage-books']);
+          },
+          error: (err) => this.handleError('Failed to update book', err),
+        });
     } else {
-      this.apiService.createBook(this.book).subscribe({
+      this.apiService.createBook(this.book, this.selectedFile, this.selectedEbookFile).subscribe({
         next: () => {
           this.toastService.show('Book created successfully!');
           this.router.navigate(['/manage-books']);
         },
-        error: (err) => {
-          this.toastService.show('Failed to create book.', 'error');
-          console.error(err);
-          this.isLoading = false;
-        },
+        error: (err) => this.handleError('Failed to create book', err),
       });
     }
+  }
+
+  private handleError(message: string, error: any) {
+    this.toastService.show(message, 'error');
+    console.error(error);
+    this.isLoading = false;
   }
 
   private getNewBook(): Book {

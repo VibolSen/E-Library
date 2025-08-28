@@ -1,55 +1,81 @@
-<div class="container mx-auto">
-    <!-- Page Header -->
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-gray-800">Manage Books</h1>
-        <a routerLink="/add-book"
-            class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
-            + Add New Book
-        </a>
-    </div>
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 p-8 font-sans">
+    <div class="container mx-auto max-w-7xl">
+        <!-- Page Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
+            <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight">Manage Books</h1>
+            <a routerLink="/add-book"
+                class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-bold rounded-xl shadow-lg hover:bg-blue-700 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
+                <i class="fas fa-plus-circle mr-3"></i> Add New Book
+            </a>
+        </div>
 
-    <!-- Loading Spinner -->
-    <div *ngIf="isLoading" class="flex justify-center py-16"><app-spinner></app-spinner></div>
+        <!-- Loading Spinner -->
+        <div *ngIf="isLoading" class="flex justify-center py-20">
+            <app-spinner></app-spinner>
+        </div>
 
-    <!-- Error Message -->
-    <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
-        <strong class="font-bold">Error:</strong> <span class="block sm:inline">{{ error }}</span>
-    </div>
+        <!-- Error Message -->
+        <div *ngIf="error"
+            class="bg-red-50 border border-red-300 text-red-800 px-5 py-4 rounded-xl relative mb-8 shadow-md"
+            role="alert">
+            <strong class="font-bold">Error:</strong> <span class="block sm:inline">{{ error }}</span>
+        </div>
 
-    <!-- Enhanced Tailwind CSS Table -->
-    <div *ngIf="!isLoading && !error" class="bg-white rounded-lg shadow overflow-hidden">
-        <table class="min-w-full">
-            <thead class="bg-gray-50 border-b-2 border-gray-200">
-                <tr>
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Cover</th>
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Title</th>
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Author</th>
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Category</th> <!-- NEW COLUMN -->
-                    <th class="p-4 text-left text-sm font-semibold text-gray-600">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Empty State -->
-                <tr *ngIf="books.length === null">
-                    <td colspan="5" class="p-8 text-center text-gray-500">No books found from the API.</td>
-                    <!-- Updated colspan -->
-                </tr>
-                <!-- Data Rows -->
-                <tr *ngFor="let book of books" class="border-b">
-                    <td class="p-4"><img [src]="book.coverImageUrl" [alt]="book.title"
-                            class="h-16 w-12 object-cover rounded"></td>
-                    <td class="p-4 font-medium text-gray-900">{{ book.title }}</td>
-                    <td class="p-4 text-gray-600">{{ book.author }}</td>
-                    <td class="p-4 text-gray-600">{{ book.categoryName }}</td>
-                    <!-- NEW CELL - using optional chaining ?. -->
-                    <td class="p-4">
-                        <a [routerLink]="['/edit-book', book.id]"
-                            class="text-blue-600 hover:text-blue-800 font-semibold mr-4">Edit</a>
-                        <button (click)="deleteBook(book.id, book.title)"
-                            class="text-red-600 hover:text-red-800 font-semibold">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Enhanced Tailwind CSS Table -->
+        <div *ngIf="!isLoading && !error" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Cover</th>
+                        <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Title</th>
+                        <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Author</th>
+                        <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Category</th>
+                        <th scope="col"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Empty State -->
+                    <tr *ngIf="books.length === 0">
+                        <td colspan="5" class="px-6 py-12 text-center text-lg text-gray-500">No books found from the
+                            API.</td>
+                    </tr>
+                    <!-- Data Rows -->
+                    <tr *ngFor="let book of books" class="hover:bg-gray-50 transition-colors duration-200 ease-in-out">
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <img [src]="book.coverImageUrl | imageUrl" [alt]="book.title"
+                                class="h-20 w-14 object-cover rounded-md shadow-md transform hover:scale-105 transition-transform duration-200 ease-in-out">
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ book.title }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-700">{{ book.author }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span
+                                class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                {{ book.categoryName }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <a [routerLink]="['/edit-book', book.id]"
+                                class="text-indigo-600 hover:text-indigo-900 mr-4 transition-colors duration-200 ease-in-out">Edit</a>
+                            <button (click)="deleteBook(book.id, book.title)"
+                                class="text-red-600 hover:text-red-900 transition-colors duration-200 ease-in-out">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

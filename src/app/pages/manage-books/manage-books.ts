@@ -6,11 +6,12 @@ import { ApiService, Book } from '../../services/api'; // <-- CORRECTED IMPORT
 import { ModalService } from '../../shared/modal.service';
 import { SpinnerComponent } from '../../shared/spinner/spinner';
 import { ToastService } from '../../shared/toast.service';
+import { ImageUrlPipe } from '../../shared/pipes/image-url-pipe';
 
 @Component({
   selector: 'app-manage-books',
   standalone: true,
-  imports: [CommonModule, RouterLink, SpinnerComponent],
+  imports: [CommonModule, RouterLink, SpinnerComponent, ImageUrlPipe],
   templateUrl: './manage-books.html',
   styleUrl: './manage-books.css',
 })

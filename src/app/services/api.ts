@@ -4,10 +4,6 @@ import { Observable } from 'rxjs';
 
 // --- DATA MODELS ---
 
-export interface CategoryReportData {
-  categoryName: string;
-  resourceCount: number;
-}
 export interface Category {
   id: number;
   name: string;
@@ -43,6 +39,13 @@ export interface Resource {
 
 // --- REPORTING & DASHBOARD INTERFACES ---
 
+// --- THIS INTERFACE WAS MISSING ---
+export interface CategoryReportData {
+  categoryName: string;
+  resourceCount: number;
+}
+// ------------------------------------
+
 export interface PerformanceMetrics {
   mostViewed: { title: string; viewCount: number }[];
   activeCategories: { categoryName: string; resourceCount: number }[];
@@ -62,7 +65,7 @@ export interface DashboardStats {
 })
 export class ApiService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://172.104.190.114/api/e-library';
+  private baseUrl = 'http://localhost:5069/api/e-library';
 
   constructor() {}
 
@@ -73,14 +76,50 @@ export class ApiService {
   getBookById(bookId: number): Observable<Book> {
     return this.http.get<Book>(`${this.baseUrl}/resources/${bookId}`);
   }
-  createBook(bookData: Book): Observable<Book> {
-    return this.http.post<Book>(`${this.baseUrl}/resources`, bookData);
-  }
-  updateBook(bookId: number, bookData: Book): Observable<Book> {
-    return this.http.put<Book>(`${this.baseUrl}/resources/${bookId}`, bookData);
-  }
   deleteBook(bookId: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/resources/${bookId}`);
+  }
+
+  createBook(
+    bookData: Book,
+    coverImageFile?: File | null,
+    ebookFile?: File | null
+  ): Observable<Book> {
+    const formData = new FormData();
+    formData.append('title', bookData.title);
+    formData.append('author', bookData.author);
+    if (bookData.categoryId) formData.append('categoryId', bookData.categoryId.toString());
+    if (bookData.description) formData.append('description', bookData.description);
+    if (bookData.publisher) formData.append('publisher', bookData.publisher);
+    if (bookData.isbn) formData.append('isbn', bookData.isbn);
+    if (bookData.publishedDate)
+      formData.append('publishedDate', new Date(bookData.publishedDate).toISOString());
+    formData.append('resourceType', '0');
+    if (coverImageFile) formData.append('coverImageFile', coverImageFile, coverImageFile.name);
+    if (ebookFile) formData.append('assetFile', ebookFile, ebookFile.name);
+    return this.http.post<Book>(`${this.baseUrl}/resources`, formData);
+  }
+
+  updateBook(
+    bookId: number,
+    bookData: Book,
+    coverImageFile?: File | null,
+    ebookFile?: File | null
+  ): Observable<Book> {
+    const formData = new FormData();
+    formData.append('id', bookData.id.toString());
+    formData.append('title', bookData.title);
+    formData.append('author', bookData.author);
+    if (bookData.categoryId) formData.append('categoryId', bookData.categoryId.toString());
+    if (bookData.description) formData.append('description', bookData.description);
+    if (bookData.publisher) formData.append('publisher', bookData.publisher);
+    if (bookData.isbn) formData.append('isbn', bookData.isbn);
+    if (bookData.publishedDate)
+      formData.append('publishedDate', new Date(bookData.publishedDate).toISOString());
+    formData.append('resourceType', '0');
+    if (coverImageFile) formData.append('coverImageFile', coverImageFile, coverImageFile.name);
+    if (ebookFile) formData.append('assetFile', ebookFile, ebookFile.name);
+    return this.http.put<Book>(`${this.baseUrl}/resources/${bookId}`, formData);
   }
 
   // --- Resource Methods ---
@@ -128,6 +167,7 @@ export class ApiService {
     return this.http.get<DashboardStats>(`${this.baseUrl}/reports/dashboard-stats`);
   }
 
+  // This method will now work correctly
   getReportData(): Observable<CategoryReportData[]> {
     return this.http.get<CategoryReportData[]>(`${this.baseUrl}/reports/resources-by-category`);
   }
